@@ -9,6 +9,7 @@
     "type": "git",
     "url": "git+https://github.com/LydosSky/blog-api.git"
   },
+  "type": "module",
   "keywords": [],
   "author": "",
   "license": "ISC",
@@ -23,5 +24,8 @@
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "prisma": "^6.4.1"
+  },
+  "devDependencies": {
+    "prettier-plugin-prisma": "^5.0.0"
   }
 }
