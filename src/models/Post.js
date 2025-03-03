@@ -40,3 +40,29 @@ export function getPostById(id) {
 export function getPosts() {
   return prisma.post.findMany();
 }
+
+/**
+ * Create a new Post.
+ * @param {Object} post - The post data
+ * @param {string} post.title - The post's title
+ * @param {string} post.content - The post's content
+ * @param {string} post.authorId - The post's author's id
+ * @returns {Promise<{
+ *      id: string,
+ *      title: string,
+ *      content: string,
+ *      authorId: string,
+ *      author: Object
+ *      createdAt: Date,
+ *      updatedAt: Date
+ * }>}
+ * A Promise resolving into the post created.
+ */
+export function createPost(post) {
+  return prisma.post.create({
+    data: post,
+    include: {
+      author: true,
+    },
+  });
+}
