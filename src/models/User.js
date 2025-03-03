@@ -81,8 +81,8 @@ export function createUser(user) {
  *      email:string,
  *      createdAt: Date,
  *      updatedAt: Date
- *  } | null>}
- * A promise resolving to the updated user object or `null` if not found.
+ *  }>}
+ * A promise resolving to the updated user object.
  */
 export function updateUser(user) {
   return prisma.user.update({
@@ -103,7 +103,7 @@ export function updateUser(user) {
  *      comments: Object[],
  *      createdAt: Date,
  *      updatedAt: Date
- *  } | null>}
+ *  }>}
  *  A promise resolving to the deleted user object.
  */
 export function deleteUser(id) {
