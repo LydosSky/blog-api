@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon src/index.js"
   },
   "repository": {
     "type": "git",
@@ -13,7 +13,6 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "type": "commonjs",
   "bugs": {
     "url": "https://github.com/LydosSky/blog-api/issues"
   },
@@ -26,6 +25,7 @@
     "prisma": "^6.4.1"
   },
   "devDependencies": {
+    "nodemon": "^3.1.9",
     "prettier-plugin-prisma": "^5.0.0"
   }
 }
