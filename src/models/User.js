@@ -70,11 +70,23 @@ export function createUser(user) {
   return prisma.user.create({ data: user });
 }
 
+/**
+ * Update a user with new credentials.
+ *
+ * @param {Object} user - The user data.
+ * @param {string} user.id - The user's id.
+ * @param {string} user.password - The user's new updated password (hashed)
+ * @returns {Promise<{
+ *      id: string,
+ *      email:string,
+ *      createdAt: Date,
+ *      updatedAt: Date
+ *  } | null>}
+ * A promise resolving to the updated user object or `null` if not found.
+ */
 export function updateUser(user) {
   return prisma.user.update({
     where: { id: user.id },
-    data: {
-      password: user.password,
-    },
+    data: { password: user.password },
   });
 }
