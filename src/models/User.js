@@ -90,3 +90,22 @@ export function updateUser(user) {
     data: { password: user.password },
   });
 }
+
+/**
+ * Delete a user with given ID.
+ *
+ * @param {string} id - The user ID.
+ * @returns {Promise<{
+ *      id: string,
+ *      email:string,
+ *      password: string,
+ *      posts: Object[],
+ *      comments: Object[],
+ *      createdAt: Date,
+ *      updatedAt: Date
+ *  } | null>}
+ *  A promise resolving to the deleted user object.
+ */
+export function deleteUser(id) {
+  return prisma.user.delete({ where: { id: id } });
+}
