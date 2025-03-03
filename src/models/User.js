@@ -3,9 +3,9 @@ import { PrismaClient } from '@prisma/client';
 const prisma = new PrismaClient();
 
 /**
- * Get user by ID, including posts and comments
+ * Get user by ID, including posts and comments.
  *
- * @param {string} id - ID of the user
+ * @param {string} id - ID of the user.
  * @returns {Promise<{
  *      id: string,
  *      email:string,
@@ -29,7 +29,7 @@ export function getUserById(id) {
 }
 
 /**
- * Get all the users, including posts and comments
+ * Get all the users, including posts and comments.
  *
  * @returns {Promise<Array<{
  *      id: string,
@@ -52,8 +52,22 @@ export function getUsers() {
   });
 }
 
+/**
+ * Create a user with given credentials.
+ *
+ * @param {Object} user  - The user data.
+ * @param {string} user.email - The user's email.
+ * @param {string} user.password - The user's password (hashed).
+ * @returns {Promise<{
+ *      id: string,
+ *      email:string,
+ *      createdAt: Date,
+ *      updatedAt: Date
+ *  }>}
+ * A promise resolving to the created user object.
+ */
 export function createUser(user) {
-  return prisma.user.create({ data: { user } });
+  return prisma.user.create({ data: user });
 }
 
 export function updateUser(user) {
