@@ -166,3 +166,42 @@ export function updateComment(comment) {
   });
 }
 
+/**
+ * Delete a comment.
+ *
+ * @param {string} id - The comment's ID.
+ * @returns {Promise<{
+ *      id: string,
+ *      content: string,
+ *      userId: string,
+ *      user: string,
+ *      postId: string,
+ *      post: string,
+ *      createdAt: Date,
+ *      updatedAt: Date
+ * }>}
+ * A Promise resolves to Deleted Comment.
+ */
+export function deleteComment(id) {
+  return prisma.comment.delete({
+    where: { id },
+    select: {
+      id: true,
+      content: true,
+      userId: true,
+      postId: true,
+      createdAt: true,
+      updatedAt: true,
+      user: {
+        select: {
+          email: true,
+        },
+      },
+      post: {
+        select: {
+          title: true,
+        },
+      },
+    },
+  });
+}
