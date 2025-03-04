@@ -19,7 +19,7 @@ const prisma = new PrismaClient();
  * A Promise resolving to the post object or `null`
  * if not found.
  */
-export function getPostById(id) {
+function getPostById(id) {
   return prisma.post.findUnique({ where: { id }, include: { comments: true } });
 }
 
@@ -39,7 +39,7 @@ export function getPostById(id) {
  * A Promise resolving to the array of post object
  * or empty array.
  */
-export function getPosts() {
+function getPosts() {
   return prisma.post.findMany();
 }
 
@@ -61,7 +61,7 @@ export function getPosts() {
  * }>}
  * A Promise resolving into the post created.
  */
-export function createPost(post) {
+function createPost(post) {
   return prisma.post.create({
     data: post,
     include: {
@@ -89,7 +89,7 @@ export function createPost(post) {
  * }>}
  * A Promise resolving into the post updated.
  */
-export function updatePost(post) {
+function updatePost(post) {
   return prisma.post.update({
     where: { id: post.id },
     data: post,
@@ -115,6 +115,8 @@ export function updatePost(post) {
  * }>}
  * A Promise resolving into the post updated.
  */
-export function deletePost(id) {
+function deletePost(id) {
   return prisma.post.delete({ where: { id }, include: { comments: true } });
 }
+
+export default { getPostById, getPosts, createPost, updatePost, deletePost };

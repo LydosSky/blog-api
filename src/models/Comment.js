@@ -18,7 +18,7 @@ const prisma = new PrismaClient();
  * }> | null}
  * A Promise resolves to Comment object or `null` if not found.
  */
-export function getCommentById(id) {
+function getCommentById(id) {
   return prisma.comment.findUnique({
     where: { id },
     select: {
@@ -57,7 +57,7 @@ export function getCommentById(id) {
  * }>>}
  * A Promise resolves to Comments Array.
  */
-export function getComments() {
+function getComments() {
   return prisma.comment.findMany({
     select: {
       id: true,
@@ -99,7 +99,7 @@ export function getComments() {
  * }>}
  * A Promise resolves to new Created Comment.
  */
-export function createComment(comment) {
+function createComment(comment) {
   return prisma.comment.create({
     data: comment,
     select: {
@@ -141,7 +141,7 @@ export function createComment(comment) {
  * }>}
  * A Promise resolves to Updated Comment.
  */
-export function updateComment(comment) {
+function updateComment(comment) {
   return prisma.comment.update({
     where: { id: comment.id },
     data: comment,
@@ -182,7 +182,7 @@ export function updateComment(comment) {
  * }>}
  * A Promise resolves to Deleted Comment.
  */
-export function deleteComment(id) {
+function deleteComment(id) {
   return prisma.comment.delete({
     where: { id },
     select: {
@@ -205,3 +205,11 @@ export function deleteComment(id) {
     },
   });
 }
+
+export default {
+  getComments,
+  getCommentById,
+  createComment,
+  updateComment,
+  deleteComment,
+};

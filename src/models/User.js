@@ -18,7 +18,7 @@ const prisma = new PrismaClient();
  *  A promise resolving to the user object or `null`
  *  if not found.
  */
-export function getUserById(id) {
+function getUserById(id) {
   return prisma.user.findUnique({
     where: { id },
     include: {
@@ -43,7 +43,7 @@ export function getUserById(id) {
  *  A promise resolving to the user object array or empty array []
  *  if non user.
  */
-export function getUsers() {
+function getUsers() {
   return prisma.user.findMany({
     include: {
       posts: true,
@@ -66,7 +66,7 @@ export function getUsers() {
  *  }>}
  * A promise resolving to the created user object.
  */
-export function createUser(user) {
+function createUser(user) {
   return prisma.user.create({ data: user });
 }
 
@@ -84,7 +84,7 @@ export function createUser(user) {
  *  }>}
  * A promise resolving to the updated user object.
  */
-export function updateUser(user) {
+function updateUser(user) {
   return prisma.user.update({
     where: { id: user.id },
     data: { password: user.password },
@@ -106,6 +106,8 @@ export function updateUser(user) {
  *  }>}
  *  A promise resolving to the deleted user object.
  */
-export function deleteUser(id) {
+function deleteUser(id) {
   return prisma.user.delete({ where: { id: id } });
 }
+
+export default { getUsers, getUserById, createUser, updateUser, deleteUser };
