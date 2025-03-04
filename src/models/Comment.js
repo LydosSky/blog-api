@@ -122,3 +122,47 @@ export function createComment(comment) {
     },
   });
 }
+
+/**
+ * Update a comment.
+ *
+ * @param {Object} comment - The comment object.
+ * @param {string} comment.id - The comment's ID.
+ * @param {string} comment.content - The comment's content.
+ * @returns {Promise<{
+ *      id: string,
+ *      content: string,
+ *      userId: string,
+ *      user: string,
+ *      postId: string,
+ *      post: string,
+ *      createdAt: Date,
+ *      updatedAt: Date
+ * }>}
+ * A Promise resolves to Updated Comment.
+ */
+export function updateComment(comment) {
+  return prisma.comment.update({
+    where: { id: comment.id },
+    data: comment,
+    select: {
+      id: true,
+      content: true,
+      userId: true,
+      postId: true,
+      createdAt: true,
+      updatedAt: true,
+      user: {
+        select: {
+          email: true,
+        },
+      },
+      post: {
+        select: {
+          title: true,
+        },
+      },
+    },
+  });
+}
+
