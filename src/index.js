@@ -1,19 +1,16 @@
 import express from 'express';
 import 'dotenv/config';
+import routes from './routes';
+import middlewares from './middlewares';
 
 const app = express();
 app.use(express.json());
 
-// Handle 404 Not found
-app.use((req, res, next) => {
-  res.status(404).json({ error: 'Not Found' });
-});
+app.use('/user', routes.user);
 
-// Handle 500
-app.use((err, req, res, next) => {
-  console.error(err);
-  res.status(500).json({ error: 'Internal Server Error' });
-});
+// Error Handling
+app.use(middlewares.errors.notFound);
+app.use(middlewares.errors.serverError);
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`API PORT:${PORT}`));
