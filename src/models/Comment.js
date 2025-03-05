@@ -1,3 +1,22 @@
+/**
+ * Post model.
+ *
+ * These functions handle comment-related database CRUD operations.
+ *
+ *
+ * @module models/comment
+ */
+
+/**
+ * @typedef {Object} Comment
+ * @property {string} id - The comment ID.
+ * @property {string} content - The comment content.
+ * @property {string} postId - The postId comment belongs to.
+ * @property {string} userId - The post's user's ID.
+ * @property {Date} createdAt - The date post created.
+ * @property {Date} updatedAt - The date post updated.
+ */
+
 import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
@@ -6,17 +25,8 @@ const prisma = new PrismaClient();
  * Return the comment with given ID.
  *
  * @param {string} id - ID of the wanted comment
- * @returns {Promise<{
- *      id: string,
- *      content: string,
- *      userId: string,
- *      user: string,
- *      postId: string,
- *      post: string,
- *      createdAt: Date,
- *      updatedAt: Date
- * }> | null}
- * A Promise resolves to Comment object or `null` if not found.
+ * @returns {Promise<Comment | null>} - A Promise resolves to Comment object
+ * or `null` if not found. Select proper information of the post and user object.
  */
 function getCommentById(id) {
   return prisma.comment.findUnique({
@@ -45,17 +55,8 @@ function getCommentById(id) {
 /**
  * Return all of the comments.
  *
- * @returns {Promise<Array<{
- *      id: string,
- *      content: string,
- *      userId: string,
- *      user: string,
- *      postId: string,
- *      post: string,
- *      createdAt: Date,
- *      updatedAt: Date
- * }>>}
- * A Promise resolves to Comments Array.
+ * @returns {Promise<Array<Comment>>} - A Promise resolves to Comments Array.
+ * Also selects proper fields of post and user object.
  */
 function getComments() {
   return prisma.comment.findMany({
@@ -87,17 +88,8 @@ function getComments() {
  * @param {string} comment.content - The comment's content.
  * @param {string} comment.userId - The comment's owner.
  * @param {string} comment.postId - The comment's post.
- * @returns {Promise<{
- *      id: string,
- *      content: string,
- *      userId: string,
- *      user: string,
- *      postId: string,
- *      post: string,
- *      createdAt: Date,
- *      updatedAt: Date
- * }>}
- * A Promise resolves to new Created Comment.
+ * @returns {Promise<Comment>} - A Promise resolves to new Created Comment.
+ * Also selects proper fields of post and user object.
  */
 function createComment(comment) {
   return prisma.comment.create({
@@ -129,17 +121,8 @@ function createComment(comment) {
  * @param {Object} comment - The comment object.
  * @param {string} comment.id - The comment's ID.
  * @param {string} comment.content - The comment's content.
- * @returns {Promise<{
- *      id: string,
- *      content: string,
- *      userId: string,
- *      user: string,
- *      postId: string,
- *      post: string,
- *      createdAt: Date,
- *      updatedAt: Date
- * }>}
- * A Promise resolves to Updated Comment.
+ * @returns {Promise<Comment>} - A Promise resolves to Updated Comment.
+ * Also selects proper fields of post and user object.
  */
 function updateComment(comment) {
   return prisma.comment.update({
@@ -170,17 +153,8 @@ function updateComment(comment) {
  * Delete a comment.
  *
  * @param {string} id - The comment's ID.
- * @returns {Promise<{
- *      id: string,
- *      content: string,
- *      userId: string,
- *      user: string,
- *      postId: string,
- *      post: string,
- *      createdAt: Date,
- *      updatedAt: Date
- * }>}
- * A Promise resolves to Deleted Comment.
+ * @returns {Promise<Comment>} - A Promise resolves to Deleted Comment.
+ * Also selects proper fields of post and user object.
  */
 function deleteComment(id) {
   return prisma.comment.delete({
