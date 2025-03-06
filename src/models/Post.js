@@ -1,9 +1,7 @@
 /**
  * Post model.
  *
- * These functions handle post-related database CRUD operations.
- *
- *
+ * @description These functions handle post-related database CRUD operations.
  * @module models/post
  */
 

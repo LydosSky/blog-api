@@ -1,9 +1,7 @@
 /**
  * Post model.
  *
- * These functions handle comment-related database CRUD operations.
- *
- *
+ * @description These functions handle comment-related database CRUD operations.
  * @module models/comment
  */
 

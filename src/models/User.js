@@ -1,9 +1,7 @@
 /**
  * User model.
  *
- * These functions handle user-related database CRUD operations
- *
- *
+ * @description These functions handle user-related database CRUD operations
  * @module models/user
  */
 
