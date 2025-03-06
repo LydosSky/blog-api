@@ -5,18 +5,6 @@
  *
  * @module controllers/user
  */
-
-/**
- * @typedef {Object} User
- * @property {string} id - The user ID.
- * @property {string} email - The user email.
- * @property {string} password - The user password.
- * @property {Object} posts - The user's posts.
- * @property {Object} comments - The user's comments.
- * @property {Date} createdAt - The date user created.
- * @property {Date} updatedAt - The date user updated.
- */
-
 import models from '../models';
 import expressAsyncHandler from 'express-async-handler';
 
@@ -28,7 +16,7 @@ import expressAsyncHandler from 'express-async-handler';
  * @async
  * @param {Object} req - The Express request object.
  * @param {Object} res - The Express response object.
- * @returns {Promise<Array<User>>} - Promise resolves to an array of User objects.
+ * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const getUsers = expressAsyncHandler(function (req, res) {
   return models.user.getUsers().then((users) => res.json(users));
@@ -42,8 +30,7 @@ const getUsers = expressAsyncHandler(function (req, res) {
  * @async
  * @param {Object} req - The Express request object.
  * @param {Object} res - The Express response object.
- * @returns {Promise<User | null>} -  Promise resolves to an user or null
- *
+ * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const getUserById = expressAsyncHandler(function (req, res) {
   return models.user.getUserById(req.params.id).then((user) => res.json(user));
@@ -57,8 +44,7 @@ const getUserById = expressAsyncHandler(function (req, res) {
  * @async
  * @param {Object} req - The Express request object.
  * @param {Object} res - The Express response object.
- * @returns {Promise<User>} -  Promise resolves to created user.
- *
+ * @returns {Promise<void>} -  Promise resolves when the response is sent.
  */
 const createUser = expressAsyncHandler(function (req, res) {
   return models.user
@@ -77,8 +63,7 @@ const createUser = expressAsyncHandler(function (req, res) {
  * @async
  * @param {Object} req - The Express request object.
  * @param {Object} res - The Express response object.
- * @returns {Promise<User>} -  Promise resolves to updated user.
- *
+ * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const updateUser = expressAsyncHandler(function (req, res) {
   return models.user
@@ -97,8 +82,7 @@ const updateUser = expressAsyncHandler(function (req, res) {
  * @async
  * @param {Object} req - The Express request object.
  * @param {Object} res - The Express response object.
- * @returns {Promise<User>} -  Promise resolves to deleted user.
- *
+ * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const deleteUser = expressAsyncHandler(function (req, res) {
   return models.user.deleteUser(req.params.id).then((user) => res.json(user));
