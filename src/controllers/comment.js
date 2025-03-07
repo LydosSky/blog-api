@@ -87,3 +87,11 @@ const deleteComment = expressAsyncHandler(function (req, res) {
     .deleteComment(req.params.id)
     .then((comment) => res.json(comment));
 });
+
+export default {
+  getComments,
+  getCommentById,
+  createComment,
+  updateComment,
+  deleteComment,
+};
