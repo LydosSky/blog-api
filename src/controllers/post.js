@@ -17,7 +17,7 @@ import models from '../models';
  * @param {Object} res - The Express response object.
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
-const getPost = expressAsyncHandler(function (req, res) {
+const getPosts = expressAsyncHandler(function (req, res) {
   return models.post.getPosts().then((posts) => res.json(posts));
 });
 
@@ -84,3 +84,5 @@ const updatePost = expressAsyncHandler(function (req, res) {
 const deletePost = expressAsyncHandler(function (req, res) {
   return models.post.deletePost(req.params.id).then((post) => res.json(post));
 });
+
+export default { getPosts, getPostById, createPost, updatePost, deletePost };

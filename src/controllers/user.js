@@ -1,8 +1,7 @@
 /**
  * User controller.
  *
- * Functions to handle user related operations.
- *
+ * @description Functions to handle user related operations.
  * @module controllers/user
  */
 import models from '../models';
