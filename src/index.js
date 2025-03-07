@@ -9,7 +9,10 @@ const app = express();
 app.use(express.json());
 app.use(morgan('dev'));
 
+// Routes
 app.use('/user', routes.user);
+app.use('/post', routes.post);
+app.use('/comment', routes.comment);
 
 // Error Handling
 app.use(middlewares.errors.notFound);
