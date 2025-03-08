@@ -54,6 +54,17 @@ function getUsers() {
 }
 
 /**
+ * Get User by `email`.
+ *
+ * @param {string} email - Email of the wanted User.
+ * @returns {Promise<User | null>} - A Promise resolving to the User object
+ * or `null` if user not found.
+ * */
+function getUserByEmail(email) {
+  return prisma.user.findUnique({ where: { email } });
+}
+
+/**
  * Create a user with given credentials.
  *
  * @param {Object} user  - The user data.
@@ -90,4 +101,11 @@ function deleteUser(id) {
   return prisma.user.delete({ where: { id: id } });
 }
 
-export default { getUsers, getUserById, createUser, updateUser, deleteUser };
+export default {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  getUserByEmail,
+};

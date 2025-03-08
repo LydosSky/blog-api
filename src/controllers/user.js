@@ -6,7 +6,9 @@
  */
 import models from '../models';
 import expressAsyncHandler from 'express-async-handler';
-
+import bcryptjs from 'bcryptjs';
+import jwt from 'jsonwebtoken';
+import 'dotenv/config';
 /**
  * Handles GETing all of the users.
  * note: Function is wrapped with `expressAsyncHandler` for
@@ -46,12 +48,40 @@ const getUserById = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} -  Promise resolves when the response is sent.
  */
 const createUser = expressAsyncHandler(function (req, res) {
-  return models.user
-    .createUser({
-      email: req.body.email,
-      password: req.body.password,
-    })
+  return bcryptjs
+    .hash(req.body.password, 10)
+    .then((hashedPw) =>
+      models.user.createUser({
+        email: req.body.email,
+        password: hashedPw,
+      }),
+    )
     .then((user) => res.json(user));
+});
+
+/**
+ * Handlest POST login the User.
+ * note: Function is wrapped with `expressAsyncHandler` for
+ * erro handling.
+ *
+ * @async
+p * @param {Object} req - The Express request object.
+ * @param {Object} res - The Express response object.
+ * @returns {Promise<void>} - Promise resolves when the response is sent.
+ * */
+const loginUser = expressAsyncHandler(function (req, res) {
+  return models.user
+    .getUserByEmail(req.body.email)
+    .then((user) => ({
+      passwordMatch: bcryptjs.compare(user.password, req.body.password),
+      user: user,
+    }))
+    .then(({ passwordMatch, user }) =>
+      jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+        expiresIn: '120',
+      }),
+    )
+    .then((token) => res.json({ token }));
 });
 
 /**
@@ -87,4 +117,11 @@ const deleteUser = expressAsyncHandler(function (req, res) {
   return models.user.deleteUser(req.params.id).then((user) => res.json(user));
 });
 
-export default { getUsers, getUserById, createUser, updateUser, deleteUser };
+export default {
+  getUsers,
+  getUserById,
+  createUser,
+  updateUser,
+  deleteUser,
+  loginUser,
+};

@@ -49,6 +49,16 @@ router.get('/:id', controllers.user.getUserById);
 router.post('', controllers.user.createUser);
 
 /**
+ * @route POST /user/login
+ * @summary Creates JWT for user to use.
+ * @access Public
+ * @param {string} req.body.email - email of the User.
+ * @param {string} req.body.password - password of the User.
+ * @returns {string} 200 - JWT created for authentication.
+ * */
+router.post('/login', controllers.user.loginUser);
+
+/**
  * @route PUT /user/{id}
  * @summary Updates the user with given ID.
  * @access Public
