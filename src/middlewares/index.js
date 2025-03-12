@@ -1,3 +1,4 @@
 import errors from './errors.js';
+import passport from './passport.js';
 
-export default { errors };
+export default { errors, passport };
