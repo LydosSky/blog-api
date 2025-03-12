@@ -9,6 +9,7 @@ import expressAsyncHandler from 'express-async-handler';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+
 /**
  * Handles GETing all of the users.
  * note: Function is wrapped with `expressAsyncHandler` for
@@ -69,19 +70,23 @@ p * @param {Object} req - The Express request object.
  * @param {Object} res - The Express response object.
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  * */
-const loginUser = expressAsyncHandler(function (req, res) {
-  return models.user
-    .getUserByEmail(req.body.email)
-    .then((user) => ({
-      passwordMatch: bcryptjs.compare(user.password, req.body.password),
-      user: user,
-    }))
-    .then(({ passwordMatch, user }) =>
-      jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-        expiresIn: '120',
-      }),
-    )
-    .then((token) => res.json({ token }));
+const loginUser = expressAsyncHandler(async function (req, res) {
+  const { email, password } = req.body;
+  const user = await models.user.getUserByEmail(email);
+  if (!user) {
+    return res.json({ error: 'There is no such user' });
+  }
+
+  const passwordMatch = await bcryptjs.compare(password, user.password);
+  if (!passwordMatch) {
+    return res.json({ error: 'Password no match.' });
+  }
+
+  const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
+    expiresIn: '300',
+  });
+
+  return res.json({ token });
 });
 
 /**
