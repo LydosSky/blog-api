@@ -18,6 +18,7 @@
 
 import { Router } from 'express';
 import controllers from '../controllers';
+import middlewares from '../middlewares';
 
 const router = Router();
 
@@ -41,33 +42,45 @@ router.get('/:id', controllers.post.getPostById);
 /**
  * @route POST /post
  * @summary Creates the post with given title and content.
- * @access Public
+ * @access Protected
  * @param {string} req.body.title - title of the Post.
  * @param {string} req.body.content - content of the Post.
  * @param {string} req.body.userId - author of the Post.
  * @returns {Post} 200 - The Post object created.
  */
-router.post('', controllers.post.createPost);
+router.post(
+  '',
+  middlewares.passport.authenticate('jwt', { session: false }),
+  controllers.post.createPost,
+);
 
 /**
  * @route PUT /post/{id}
  * @summary Updates the post with given title and content.
- * @access Public
+ * @access Protected
  * @param {string} req.params.id - ID of the Post to update.
  * @param {string} req.body.title - title of the Post.
  * @param {string} req.body.content - content of the Post.
  * @param {string} req.body.userId - author of the Post.
  * @returns {Post} 200 - The Post object updated.
  */
-router.put('/:id', controllers.post.updatePost);
+router.put(
+  '/:id',
+  middlewares.passport.authenticate('jwt', { session: false }),
+  controllers.post.updatePost,
+);
 
 /**
  * @route DELETE /post/{id}
  * @summary Deletes the post with given ID.
- * @access Public
+ * @access Protected
  * @param {string} req.params.id - ID of the Post to delete.
  * @returns {Post} 200 - The Post object that is deleted.
  */
-router.delete('/:id', controllers.post.deletePost);
+router.delete(
+  '/:id',
+  middlewares.passport.authenticate('jwt', { session: false }),
+  controllers.post.deletePost,
+);
 
 export default router;
