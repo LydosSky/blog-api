@@ -16,8 +16,10 @@
  */
 import { Router } from 'express';
 import controllers from '../controllers';
+import middlewares from '../middlewares';
 
 const router = Router();
+
 /**
  * @route GET /comment
  * @summary Get all of the comments.
@@ -37,25 +39,37 @@ router.get('/:id', controllers.comment.getCommentById);
 /**
  * @route POST /comment
  * @summary Create a comment.
- * @access Public
+ * @access Protected
  * @returns {Comment} 200 - Comment Created.
  * */
-router.post('', controllers.comment.createComment);
+router.post(
+  '',
+  middlewares.passport.authenticate('jwt', { session: false }),
+  controllers.comment.createComment,
+);
 
 /**
  * @route PUT /comment/{id}
  * @summary Update comment with given ID.
- * @access Public
+ * @access Protected
  * @returns {Comment} 200 - Comment Updated.
  * */
-router.put('/:id', controllers.comment.updateComment);
+router.put(
+  '/:id',
+  middlewares.passport.authenticate('jwt', { session: false }),
+  controllers.comment.updateComment,
+);
 
 /**
  * @route DELETE /comment/{id}
  * @summary Delete comment with given ID.
- * @access Public
+ * @access Protected
  * @returns {Comment} 200 - Comment Deleted.
  * */
-router.delete('/:id', controllers.comment.deleteComment);
+router.delete(
+  '/:id',
+  middlewares.passport.authenticate('jwt', { session: false }),
+  controllers.comment.deleteComment,
+);
 
 export default router;
