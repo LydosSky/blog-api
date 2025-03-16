@@ -83,7 +83,7 @@ const loginUser = expressAsyncHandler(async function (req, res) {
   }
 
   const token = jwt.sign({ userId: user.id }, process.env.JWT_SECRET, {
-    expiresIn: '300',
+    expiresIn: '24h',
   });
 
   return res.json({ token });
@@ -125,6 +125,8 @@ const updateUser = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const deleteUser = expressAsyncHandler(function (req, res) {
+  if (req.user.id !== req.params.id)
+    return res.json({ error: 'invalid credentials' });
   return models.user.deleteUser(req.params.id).then((user) => res.json(user));
 });
 
