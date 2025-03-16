@@ -97,14 +97,20 @@ const loginUser = expressAsyncHandler(async function (req, res) {
  * @async
  * @param {Object} req - The Express request object.
  * @param {Object} res - The Express response object.
- * @returns {Promise<void>} - Promise resolves when the response is sent.
+ * @returns {Promise<void> | error } - Promise resolves when the response is sent.
  */
 const updateUser = expressAsyncHandler(function (req, res) {
-  return models.user
-    .updateUser({
-      id: req.params.id,
-      password: req.body.password,
-    })
+  if (req.user.id !== req.params.id)
+    return res.json({ error: 'invalid credentials' });
+
+  return bcryptjs
+    .hash(req.body.password, 10)
+    .then((hashedPw) =>
+      models.user.updateUser({
+        id: req.params.id,
+        password: hashedPw,
+      }),
+    )
     .then((user) => res.json(user));
 });
 
