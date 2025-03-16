@@ -18,6 +18,7 @@
 
 import { Router } from 'express';
 import controllers from '../controllers';
+import middlewares from '../middlewares';
 
 const router = Router();
 
@@ -61,19 +62,27 @@ router.post('/login', controllers.user.loginUser);
 /**
  * @route PUT /user/{id}
  * @summary Updates the user with given ID.
- * @access Public
+ * @access Protected
  * @param {string} req.params.id - The ID.
  * @returns {User} 200 - The user object updated.
  */
-router.put('/:id', controllers.user.updateUser);
+router.put(
+  '/:id',
+  middlewares.passport.authenticate('jwt', { session: false }),
+  controllers.user.updateUser,
+);
 
 /**
  * @route DELETE /user/{id}
  * @summary Deletes the user with given ID.
- * @access Public
+ * @access Protected
  * @param {string} req.params.id - The ID.
  * @returns {User} 200 - The user object deleted.
  */
-router.delete('/:id', controllers.user.deleteUser);
+router.delete(
+  '/:id',
+  middlewares.passport.authenticate('jwt', { session: false }),
+  controllers.user.deleteUser,
+);
 
 export default router;
