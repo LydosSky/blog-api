@@ -7,6 +7,7 @@
 
 import expressAsyncHandler from 'express-async-handler';
 import models from '../models';
+import { validationResult } from 'express-validator';
 
 /**
  * Handles GETing all of the posts.
@@ -44,11 +45,13 @@ const getPostById = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const createPost = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
   return models.post
     .createPost({
       title: req.body.title,
       content: req.body.content,
-      userId: req.body.userId,
+      userId: req.user.id,
     })
     .then((post) => res.json(post));
 });
@@ -63,6 +66,8 @@ const createPost = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const updatePost = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
   return models.post
     .updatePost({
       id: req.params.id,
@@ -82,6 +87,8 @@ const updatePost = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const deletePost = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.status(400).json({ error: errors.array() });
   return models.post.deletePost(req.params.id).then((post) => res.json(post));
 });
 
