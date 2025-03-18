@@ -19,6 +19,7 @@
 import { Router } from 'express';
 import controllers from '../controllers';
 import middlewares from '../middlewares';
+import validators from '../validators';
 
 const router = Router();
 
@@ -47,7 +48,7 @@ router.get('/:id', controllers.user.getUserById);
  * @param {string} req.body.password - password of the User.
  * @returns {User} 200 - The user object created.
  */
-router.post('', controllers.user.createUser);
+router.post('', validators.user.createValidator, controllers.user.createUser);
 
 /**
  * @route POST /user/login
@@ -57,7 +58,11 @@ router.post('', controllers.user.createUser);
  * @param {string} req.body.password - password of the User.
  * @returns {string} 200 - JWT created for authentication.
  * */
-router.post('/login', controllers.user.loginUser);
+router.post(
+  '/login',
+  validators.user.createValidator,
+  controllers.user.loginUser,
+);
 
 /**
  * @route PUT /user/{id}
@@ -68,6 +73,7 @@ router.post('/login', controllers.user.loginUser);
  */
 router.put(
   '/:id',
+  validators.user.updateValidator,
   middlewares.passport.authenticate('jwt', { session: false }),
   controllers.user.updateUser,
 );
@@ -81,6 +87,7 @@ router.put(
  */
 router.delete(
   '/:id',
+  validators.user.deleteValidator,
   middlewares.passport.authenticate('jwt', { session: false }),
   controllers.user.deleteUser,
 );

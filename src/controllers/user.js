@@ -9,6 +9,7 @@ import expressAsyncHandler from 'express-async-handler';
 import bcryptjs from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import 'dotenv/config';
+import { validationResult } from 'express-validator';
 
 /**
  * Handles GETing all of the users.
@@ -49,6 +50,10 @@ const getUserById = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} -  Promise resolves when the response is sent.
  */
 const createUser = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   return bcryptjs
     .hash(req.body.password, 10)
     .then((hashedPw) =>
@@ -71,6 +76,10 @@ p * @param {Object} req - The Express request object.
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  * */
 const loginUser = expressAsyncHandler(async function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   const { email, password } = req.body;
   const user = await models.user.getUserByEmail(email);
   if (!user) {
@@ -100,6 +109,10 @@ const loginUser = expressAsyncHandler(async function (req, res) {
  * @returns {Promise<void> | error } - Promise resolves when the response is sent.
  */
 const updateUser = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   if (req.user.id !== req.params.id)
     return res.json({ error: 'invalid credentials' });
 
@@ -125,6 +138,10 @@ const updateUser = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  */
 const deleteUser = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
   if (req.user.id !== req.params.id)
     return res.json({ error: 'invalid credentials' });
   return models.user.deleteUser(req.params.id).then((user) => res.json(user));
