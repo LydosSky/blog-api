@@ -5,7 +5,7 @@ const createValidator = [
     .trim()
     .notEmpty()
     .withMessage('Post must have a title')
-    .length({ max: 70 })
+    .isLength({ max: 70 })
     .withMessage('Title must be at most 70 characters long.'),
   body('content').trim().notEmpty().withMessage('Post must have a content'),
 ];
@@ -16,7 +16,7 @@ const updateValidator = [
     .trim()
     .notEmpty()
     .withMessage('Post must have a title')
-    .length({ max: 70 })
+    .isLength({ max: 70 })
     .withMessage('Title must be at most 70 characters long.'),
   body('content').trim().notEmpty().withMessage('Post must have a content'),
 ];
