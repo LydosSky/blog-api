@@ -7,6 +7,7 @@
 
 import expressAsyncHandler from 'express-async-handler';
 import models from '../models';
+import { validationResult } from 'express-validator';
 
 /**
  * Handles GETing all of the comments.
@@ -46,10 +47,12 @@ const getCommentById = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  **/
 const createComment = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.json({ error: errors.array() });
   return models.comment
     .createComment({
       content: req.body.content,
-      userId: req.body.userId,
+      userId: req.user.id,
       postId: req.body.postId,
     })
     .then((comment) => res.json(comment));
@@ -65,6 +68,8 @@ const createComment = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  **/
 const updateComment = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.json({ error: errors.array() });
   return models.comment
     .updateComment({
       id: req.params.id,
@@ -83,6 +88,8 @@ const updateComment = expressAsyncHandler(function (req, res) {
  * @returns {Promise<void>} - Promise resolves when the response is sent.
  **/
 const deleteComment = expressAsyncHandler(function (req, res) {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) return res.json({ error: errors.array() });
   return models.comment
     .deleteComment(req.params.id)
     .then((comment) => res.json(comment));

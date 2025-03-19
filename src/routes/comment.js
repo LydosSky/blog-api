@@ -17,6 +17,7 @@
 import { Router } from 'express';
 import controllers from '../controllers';
 import middlewares from '../middlewares';
+import validators from '../validators';
 
 const router = Router();
 
@@ -44,6 +45,7 @@ router.get('/:id', controllers.comment.getCommentById);
  * */
 router.post(
   '',
+  validators.comment.createValidator,
   middlewares.passport.authenticate('jwt', { session: false }),
   controllers.comment.createComment,
 );
@@ -56,6 +58,7 @@ router.post(
  * */
 router.put(
   '/:id',
+  validators.comment.updateValidator,
   middlewares.passport.authenticate('jwt', { session: false }),
   controllers.comment.updateComment,
 );
@@ -68,6 +71,7 @@ router.put(
  * */
 router.delete(
   '/:id',
+  validators.comment.deleteValidator,
   middlewares.passport.authenticate('jwt', { session: false }),
   controllers.comment.deleteComment,
 );
