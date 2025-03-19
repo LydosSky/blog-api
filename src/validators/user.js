@@ -2,42 +2,52 @@ import { body, param } from 'express-validator';
 
 const createValidator = [
   body('email')
+    .exists()
+    .withMessage('Email is required.')
     .trim()
     .notEmpty()
-    .withMessage('Email is required. Must be Unique')
+    .withMessage('Email cannot be empty.')
     .isEmail()
-    .withMessage('Invalid email adress')
+    .withMessage('Email must be email.')
     .normalizeEmail(),
   body('password')
+    .exists()
+    .withMessage('Password is required.')
     .trim()
     .notEmpty()
-    .withMessage('Password is required')
+    .withMessage('Password cannot be empty.')
     .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters long'),
+    .withMessage('Password must be at least 8 characters long.'),
 ];
 
 const updateValidator = [
   param('id')
+    .exists()
+    .withMessage('User ID param is required.')
     .trim()
     .notEmpty()
-    .withMessage('ID param is required')
+    .withMessage('User ID param cannot be empty.')
     .isUUID()
-    .withMessage('ID is uuid'),
+    .withMessage('User ID is UUID.'),
   body('password')
+    .exists()
+    .withMessage('User password is required.')
     .trim()
     .notEmpty()
-    .withMessage('Password is required')
+    .withMessage('User password cannot be empty.')
     .isLength({ min: 8 })
-    .withMessage('Password must be at least 8 characters long'),
+    .withMessage('Password must be at least 8 characters long.'),
 ];
 
 const deleteValidator = [
   param('id')
+    .exists()
+    .withMessage('User ID param is required.')
     .trim()
     .notEmpty()
-    .withMessage('ID param is required')
+    .withMessage('User ID param cannot be empty.')
     .isUUID()
-    .withMessage('ID is uuid'),
+    .withMessage('User ID is UUID.'),
 ];
 
 export default { createValidator, updateValidator, deleteValidator };
