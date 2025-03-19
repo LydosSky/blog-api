@@ -2,27 +2,51 @@ import { body, param } from 'express-validator';
 
 const createValidator = [
   body('title')
+    .exists()
+    .withMessage('Post title is required.')
     .trim()
     .notEmpty()
-    .withMessage('Post must have a title')
+    .withMessage('Post title cannot be empty.')
     .isLength({ max: 70 })
     .withMessage('Title must be at most 70 characters long.'),
-  body('content').trim().notEmpty().withMessage('Post must have a content'),
+  body('content')
+    .exists()
+    .withMessage('Post content is required.')
+    .trim()
+    .notEmpty()
+    .withMessage('Post content cannot be empty.'),
 ];
 
 const updateValidator = [
-  param('id').trim().notEmpty().withMessage('Id of the post missing.'),
-  body('title')
+  param('id')
+    .exists()
+    .withMessage('Post ID param is required.')
     .trim()
     .notEmpty()
-    .withMessage('Post must have a title')
+    .withMessage('Post ID cannot be empty.'),
+  body('title')
+    .exists()
+    .withMessage('Post title is required.')
+    .trim()
+    .notEmpty()
+    .withMessage('Post title cannot be empty.')
     .isLength({ max: 70 })
     .withMessage('Title must be at most 70 characters long.'),
-  body('content').trim().notEmpty().withMessage('Post must have a content'),
+  body('content')
+    .exists()
+    .withMessage('Post content is required.')
+    .trim()
+    .notEmpty()
+    .withMessage('Post content cannot be empty.'),
 ];
 
 const deleteValidator = [
-  param('id').trim().notEmpty().withMessage('Id of the post missing.'),
+  param('id')
+    .exists()
+    .withMessage('Post ID param is required.')
+    .trim()
+    .notEmpty()
+    .withMessage('Post ID cannot be empty.'),
 ];
 
 export default { createValidator, updateValidator, deleteValidator };
