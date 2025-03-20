@@ -1,5 +1,14 @@
 import { body, param } from 'express-validator';
 
+const getByIdValidator = [
+  param('id')
+    .exists()
+    .withMessage('Comment ID paramter is required.')
+    .trim()
+    .notEmpty()
+    .withMessage('Comment ID param cannot be empty.'),
+];
+
 const createValidator = [
   body('content')
     .exists()
@@ -40,4 +49,9 @@ const deleteValidator = [
     .withMessage('Comment ID is UUID.'),
 ];
 
-export default { createValidator, updateValidator, deleteValidator };
+export default {
+  getByIdValidator,
+  createValidator,
+  updateValidator,
+  deleteValidator,
+};

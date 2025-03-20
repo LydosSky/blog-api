@@ -1,4 +1,12 @@
 import { body, param } from 'express-validator';
+const getByIdValidator = [
+  param('id')
+    .exists()
+    .withMessage('Post ID paramter is required.')
+    .trim()
+    .notEmpty()
+    .withMessage('Post ID param cannot be empty.'),
+];
 
 const createValidator = [
   body('title')
@@ -49,4 +57,9 @@ const deleteValidator = [
     .withMessage('Post ID cannot be empty.'),
 ];
 
-export default { createValidator, updateValidator, deleteValidator };
+export default {
+  getByIdValidator,
+  createValidator,
+  updateValidator,
+  deleteValidator,
+};
