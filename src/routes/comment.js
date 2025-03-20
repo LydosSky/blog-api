@@ -35,7 +35,11 @@ router.get('', controllers.comment.getComments);
  * @access Public
  * @returns {Comment} 200 - Comment with given ID.
  * */
-router.get('/:id', controllers.comment.getCommentById);
+router.get(
+  '/:id',
+  validators.comment.getByIdValidator,
+  controllers.comment.getCommentById,
+);
 
 /**
  * @route POST /comment

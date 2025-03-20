@@ -38,7 +38,11 @@ router.get('', controllers.post.getPosts);
  * @param {string} req.params.id - ID of the Post.
  * @returns {Post} 200 - Post object with given ID.
  */
-router.get('/:id', controllers.post.getPostById);
+router.get(
+  '/:id',
+  validators.post.getByIdValidator,
+  controllers.post.getPostById,
+);
 
 /**
  * @route POST /post

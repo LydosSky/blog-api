@@ -38,7 +38,11 @@ router.get('', controllers.user.getUsers);
  * @param {string} req.params.id - The ID
  * @returns {User} 200 - The user object or null if not found.
  */
-router.get('/:id', controllers.user.getUserById);
+router.get(
+  '/:id',
+  validators.user.getByIdValidator,
+  controllers.user.getUserById,
+);
 
 /**
  * @route POST /user
